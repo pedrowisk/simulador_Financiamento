@@ -1,0 +1,712 @@
+﻿<!DOCTYPE html>
+<html lang="pt" style="height:100%">
+<head>
+
+    <!-- Required meta tags -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Simulador de Financiamento</title>
+
+    <!-- Bootstrap CSS -->
+
+    <link rel="stylesheet" href="css/bootstrap.min.css" />
+    <link rel="stylesheet" href="css/uniform.css" />
+    <link rel="stylesheet" href="css/select2.css" />
+    <link rel="stylesheet" href="css/matrix-style.css" />
+    <link rel="stylesheet" href="css/matrix-media.css" />
+    <link rel="stylesheet" href="css/bootstrap-responsive.min.css" />
+    <link rel="stylesheet" href="css/colorpicker.css" />
+    <link rel="stylesheet" href="css/datepicker.css" />
+    <link rel="stylesheet" href="css/bootstrap-wysihtml5.css" />
+    <link href="font-awesome/css/font-awesome.css" rel="stylesheet" />
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700,800' rel='stylesheet' type='text/css'>
+
+    <style>
+        .alinhamento {
+            width: 120px !important;
+            text-align: left !important;
+            vertical-align: middle !important;
+        }
+
+        .alinhamentol {
+            width: 120px !important;
+            text-align: center !important;
+            vertical-align: middle !important;
+        }
+    </style>
+
+
+</head>
+<body style="height: 100%">
+    <!-- ICONE -->
+    <div id="header">
+        <h1><a href="#"></a></h1>
+    </div>
+
+
+    <!--MENU A ESQUERDA-->
+    <div id="sidebar">
+        <ul>
+            <li><a href="index.html"><i class="icon icon-money"></i> <span>Financiamento</span></a> </li>
+        </ul>
+    </div>
+
+    <!-- CONTEUDO -->
+    <div id="content">
+        <!-- MENU TOPO DIRETORIO PAGINA -->
+        <div id="content-header">
+            <div id="breadcrumb"> <a href="#" title="Go to Home" class="tip-bottom"><i class="icon-money"></i> Inicio</a> -> <a href="#" class="current">Financiamento</a> </div>
+            <center><h1>Simular Financiamento</h1></center>
+        </div>
+
+
+
+        <div class="container-fluid">
+            <hr>
+            <div class="row-fluid">
+                <div class="span3"></div>
+                <div class="span6">
+
+                    <div class="widget-box">
+                        <div class="widget-title">
+                            <span class="icon"> <i class="icon-pencil"></i> </span>
+                            <h5>Financiamento</h5>
+                        </div>
+                        <div class="widget-content nopadding">
+                            <form class="form-horizontal" action="#" name="basic_validate" id="basic_validate" novalidate="novalidate">
+
+                                <div class="control-group" id="div1">
+                                    <label class="control-label">Valor do financiamento:</label>
+                                    <div class="controls">
+                                        <div class="input-prepend span11">
+                                            <span class="add-on">R$</span>
+                                            <input id="valorFinanciamento" type="number" min="10000.01" max="500000.00" onkeyup="amf2005_BecameCurrency(this,10)" onblur="amf2005_BecameCurrency(this,10)" step="5000.00" required class="span11" placeholder="10000,00" />
+                                        </div>
+                                        <span class="help-block"><br />Valor minimo: R$10.000,01 <p> Valor maximo: R$500.000,00</p></span>
+
+                                    </div>
+                                </div>
+
+                                <div class="control-group" id="div2">
+                                    <label class="control-label">Valor de entrada:</label>
+                                    <div class="controls">
+
+                                        <div class="input-prepend span11">
+                                            <span class="add-on">R$</span>
+                                            <input id="valorEntrada" type="number" min="0.00" max="450000.00" step="5000.00" required class="span11" placeholder="1.000,00" onkeyup="amf2005_BecameCurrency(this,10);" onblur="amf2005_BecameCurrency(this,10); " />
+                                        </div>
+                                        <span class="help-block" id="helpEntrada"><br />Valor minimo: 10% do valor do financiamento<p> Valor maximo: 80% do valor do financiamento</p></span>
+
+                                    </div>
+                                </div>
+
+                                <div class="control-group" id="div3">
+                                    <label class="control-label">Vencimento da primeira parcela:</label>
+                                    <div class="controls">
+                                        <div data-date="12-02-2012" class="input-append date datepicker span11">
+                                            <input id="vencimentoParcela" type="date" placeholder="01/12/2013" data-date-format="dd/mm/yyyy" required="required" class="span11">
+                                            <span class="add-on"><i class="icon-th"></i></span>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                                <div class="control-group" id="div4">
+                                    <label class="control-label">Total de parcelas:</label>
+                                    <div class="controls">
+
+                                        <input id="totalParcela" type="number" min="2" placeholder="2" step="1" max="72" required class="span11" />
+                                        <span class="help-block">Maximo 72 parcelas</span>
+
+                                    </div>
+                                </div>
+
+                                <div class="control-group" id="div5">
+                                    <label class="control-label">Taxa de juros (ao mês):</label>
+                                    <div class="controls">
+                                        <div class="input-prepend span11">
+
+                                            <input id="txJuros" type="number" min="0.01" max="20.00" step="0.01" placeholder="2.45" required class="span11" />
+                                            <span class="add-on">%</span>
+                                        </div>
+                                        <span class="help-block"><br />Taxa minimo: 0.01% <p> Taxa maximo: 20.99%</p></span>
+                                    </div>
+                                </div>
+
+                                <div class="form-actions">
+
+                                    <button onclick="viewSimulacao();" id="btnView" class="btn btn-info span6" style="visibility:hidden">Visualizar Simulações</button>  <span class="span2"></span>  <button onclick="validar();" class="btn btn-success span4">Simular</button>
+
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="span3"></div>
+
+
+            </div>
+        </div>
+
+
+
+
+
+        <div class="row-fluid">
+            <div id="footer" class="span12"> IHC - Simulador de Financiamento </div>
+        </div>
+
+        <div id="myModal" class="modal hide" aria-hidden="true">
+
+            <div class="modal-header">
+
+                <button data-dismiss="modal" class="close" type="button">×</button>
+
+                <h3>Resultado da simulação do financiamento</h3>
+
+            </div>
+
+            <div class="modal-body">
+
+                <div class="widget-box" style="border-top:0 !important;">
+
+
+
+                    <div class="widget-content nopadding span3 hide" id="sim">
+                        <table class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Simulação</th>
+
+                                    <th>Resultado</th>
+
+                                </tr>
+
+                            </thead>
+
+                            <tbody>
+                                <tr class="odd gradeX hide" id="tsim">
+
+                                    <td class="alinhamento" colspan="2" style="background-color:white">
+                                        <label id="rsim" style="color:red"></label>
+                                    </td>
+                                </tr>
+
+                                <tr class="odd gradeX">
+
+                                    <td class="alinhamento">Valor do financiamento</td>
+
+                                    <td class="alinhamentol"><label id="lblValorFinanciamento" /></td>
+                                </tr>
+                                <tr class="alinhamento">
+
+                                    <td class="alinhamento">Valor total após o financiamento(sem entrada)</td>
+
+                                    <td class="alinhamentol"><label id="lblTotalComJuros" /></td>
+                                </tr>
+
+                                <tr class="even gradeC">
+
+                                    <td class="alinhamento">Valor de entrada</td>
+
+                                    <td class="alinhamentol"><label id="lblValorEntrada" /></td>
+                                </tr>
+
+                                <tr class="odd gradeA">
+
+                                    <td class="alinhamento">Total de parcelas</td>
+
+                                    <td class="alinhamentol"><label id="lblTotalParcela" /></td>
+                                </tr>
+
+                                <tr class="odd gradeA">
+
+                                    <td class="alinhamento">Valor da parcelas</td>
+
+                                    <td class="alinhamentol"><label id="lblValorParcela" /></td>
+                                </tr>
+
+                                <tr class="odd gradeA">
+
+                                    <td class="alinhamento">Data da primeira parcela</td>
+
+                                    <td class="alinhamentol"><label id="lblDataPrimeira" /></td>
+                                </tr>
+
+                                <tr class="odd gradeA">
+
+                                    <td class="alinhamento">Taxa de juros</td>
+
+                                    <td class="alinhamentol"><label id="lblTaxaJuros" /></td>
+                                </tr>
+
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+
+                    <div class="widget-content nopadding span3 hide" id="sim2">
+                        <table class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Simulação</th>
+
+                                    <th>Resultado</th>
+
+                                </tr>
+
+                            </thead>
+
+                            <tbody>
+                                <tr class="odd gradeX hide" id="tsim2">
+
+
+                                    <td class="alinhamento" colspan="2" style="background-color:white">
+                                        <label id="rsim2" style="color:red"></label>
+                                    </td>
+                                </tr>
+                                <tr class="odd gradeX">
+
+                                    <td class="alinhamento">Valor do financiamento</td>
+
+                                    <td class="alinhamentol"><label id="lblValorFinanciamento2" /></td>
+                                </tr>
+                                <tr class="alinhamento">
+
+                                    <td class="alinhamento">Valor total após o financiamento(sem entrada)</td>
+
+                                    <td class="alinhamentol"><label id="lblTotalComJuros2" /></td>
+                                </tr>
+
+                                <tr class="even gradeC">
+
+                                    <td class="alinhamento">Valor de entrada</td>
+
+                                    <td class="alinhamentol"><label id="lblValorEntrada2" /></td>
+                                </tr>
+
+                                <tr class="odd gradeA">
+
+                                    <td class="alinhamento">Total de parcelas</td>
+
+                                    <td class="alinhamentol"><label id="lblTotalParcela2" /></td>
+                                </tr>
+
+                                <tr class="odd gradeA">
+
+                                    <td class="alinhamento">Valor da parcelas</td>
+
+                                    <td class="alinhamentol"><label id="lblValorParcela2" /></td>
+                                </tr>
+
+                                <tr class="odd gradeA">
+
+                                    <td class="alinhamento">Data da primeira parcela</td>
+
+                                    <td class="alinhamentol"><label id="lblDataPrimeira2" /></td>
+                                </tr>
+
+                                <tr class="odd gradeA">
+
+                                    <td class="alinhamento">Taxa de juros</td>
+
+                                    <td class="alinhamentol"><label id="lblTaxaJuros2" /></td>
+                                </tr>
+
+
+                            </tbody>
+
+                        </table>
+                    </div>
+
+                    <div class="widget-content nopadding span3 hide" id="sim3">
+                        <table class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Simulação</th>
+
+                                    <th>Resultado</th>
+
+                                </tr>
+
+                            </thead>
+
+                            <tbody>
+                                <tr class="odd gradeX" id="tsim3">
+                                    <td class="alinhamento" colspan="2" style="background-color:white">
+                                        <label id="rsim3" style="color:red"></label>
+                                    </td>
+                                </tr>
+                                <tr class="odd gradeX">
+
+                                    <td class="alinhamento">Valor do financiamento</td>
+
+                                    <td class="alinhamentol"><label id="lblValorFinanciamento3" /></td>
+                                </tr>
+                                <tr class="alinhamento">
+
+                                    <td class="alinhamento">Valor total após o financiamento(sem entrada)</td>
+
+                                    <td class="alinhamentol"><label id="lblTotalComJuros3" /></td>
+                                </tr>
+
+                                <tr class="even gradeC">
+
+                                    <td class="alinhamento">Valor de entrada</td>
+
+                                    <td class="alinhamentol"><label id="lblValorEntrada3" /></td>
+                                </tr>
+
+                                <tr class="odd gradeA">
+
+                                    <td class="alinhamento">Total de parcelas</td>
+
+                                    <td class="alinhamentol"><label id="lblTotalParcela3" /></td>
+                                </tr>
+
+                                <tr class="odd gradeA">
+
+                                    <td class="alinhamento">Valor da parcelas</td>
+
+                                    <td class="alinhamentol"><label id="lblValorParcela3" /></td>
+                                </tr>
+
+                                <tr class="odd gradeA">
+
+                                    <td class="alinhamento">Data da primeira parcela</td>
+
+                                    <td class="alinhamentol"><label id="lblDataPrimeira3" /></td>
+                                </tr>
+
+                                <tr class="odd gradeA">
+
+                                    <td class="alinhamento">Taxa de juros</td>
+
+                                    <td class="alinhamentol"><label id="lblTaxaJuros3" /></td>
+                                </tr>
+
+
+                            </tbody>
+
+                        </table>
+                    </div>
+
+
+                    <div class="widget-content nopadding span3" style="margin-top:130px; text-align:center;border-bottom:0" id="sim4">
+                        <a onclick="addNew();" style="cursor:pointer">
+                            <h4>Nova simulação</h4>
+                            <img src="img/add.png" />
+                        </a>
+                    </div>
+
+                </div>
+
+
+
+            </div>
+
+        </div>
+
+        <script src="js/jquery.min.js"></script>
+        <script src="js/bootstrap-datepicker.js"></script>
+        <script src="js/jquery.ui.custom.js"></script>
+        <script src="js/bootstrap.min.js"></script>
+        <script src="js/jquery.uniform.js"></script>
+        <script src="js/select2.min.js"></script>
+        <script src="js/jquery.validate.js"></script>
+        <script src="js/matrix.js"></script>
+        <script src="js/matrix.form_validation.js"></script>
+        <script src="js/bootstrap-wysihtml5.js"></script>
+        <script src="js/matrix.form_common.js"></script>
+        <script src="js/masked.js"></script>
+        <script src="js/matrix.interface.js"></script>
+
+        <script src="js/matrix.popover.js"></script>
+        <script>
+
+            function viewSimulacao() {
+                $('#myModal').modal('show');
+            }
+
+            function addNew() {
+                $('#myModal').modal('hide');
+            }
+
+            function validar() {
+
+
+                var state = true;
+                var valorFinanciamento = parseFloat($("#valorFinanciamento").val());
+                if (valorFinanciamento >= 10000.01) {
+                    $("#div1").addClass("control-group success");
+
+                    var valorMin = (valorFinanciamento * 10) / 100;
+                    var valorEntrada = parseFloat($("#valorEntrada").val()).toFixed(2);
+                    if (valorEntrada >= valorMin) {
+                        var valorMax = (valorFinanciamento * 80) / 100;
+                        if (valorEntrada <= valorMax) {
+                            $("#div2").addClass("control-group success");
+                        } else {
+                            state = false;
+                            $("#valorEntrada").val(" ");
+                            $("#helpEntrada").text("Valor maximo: 80% do valor do financiamento (R$ " + valorMax.toFixed(2) + ")");
+                            $("#div2").addClass("control-group error");
+                            $("#div2").removeClass("success");
+                        }
+                    } else {
+                        state = false;
+                        $("#valorEntrada").val(" ");
+                        $("#helpEntrada").text("Valor minimo: 10% do valor do financiamento (R$ " + valorMin.toFixed(2) + ")");
+                        $("#div2").addClass("control-group error");
+                        $("#div2").removeClass("success");
+                    }
+
+                } else {
+                    $("#div1").addClass("control-group error");
+                    $("#div2").addClass("control-group error");
+                    state = false;
+                }
+
+                var vencimentoParcela = $("#vencimentoParcela").val();
+
+                if (vencimentoParcela.length == 10) {
+                    $("#div3").addClass("control-group success");
+                } else { $("#div3").addClass("control-group error"); state = false; }
+
+                var totalParcela = $("#totalParcela").val();
+
+                if (totalParcela >= 2 && totalParcela <= 72) {
+                    $("#div4").addClass("control-group success");
+                } else { $("#div4").addClass("control-group error"); state = false; }
+
+                var txJuros = $("#txJuros").val();
+
+                if (txJuros >= 0.01 && txJuros <= 20.99) {
+                    $("#div5").addClass("control-group success");
+                } else { $("#div5").addClass("control-group error"); state = false; }
+
+
+                $('html,body').animate({
+                    scrollTop: $("#div2").offset().top
+                },
+                    'fast');
+
+
+
+                if (state) {
+
+                    $('#myModal').modal('show');
+                    document.getElementById("btnView").style = "";
+                    _valorFinanciamento = parseFloat(valorFinanciamento).toFixed(2)
+
+                    var anJuros = txJuros;
+                    anJuros = anJuros * 100;
+                    txJuros = txJuros / 100;
+                    valorFinanciamento = valorFinanciamento - valorEntrada
+                    var parcela_float = (valorFinanciamento * txJuros) / (1 - Math.pow(1 / (1 + txJuros), totalParcela))
+                    parcela_float = Math.round(parcela_float * 100) / 100
+                    var totalComJuros = (parcela_float * totalParcela).toFixed(2);
+                    if ($("#lblValorFinanciamento").text() == "") {
+                        $("#sim").removeClass("hide");
+                        $("#lblValorFinanciamento").text("R$ " + posPontucao(_valorFinanciamento, 10));
+                        $("#lblTotalComJuros").text("R$ " + posPontucao(totalComJuros, 10));
+                        $("#lblValorEntrada").text("R$ " + posPontucao(valorEntrada, 10));
+                        $("#lblTotalParcela").text(totalParcela);
+                        $("#lblValorParcela").text("R$ " + posPontucao(parcela_float.toFixed(2), 10));
+                        $("#lblDataPrimeira").text(vencimentoParcela);
+                        txJuros = txJuros * 100;
+                        $("#lblTaxaJuros").text(posPontucao(anJuros, 10) + " %");
+                    } else if ($("#lblValorFinanciamento2").text() == "") {
+                        $("#sim2").removeClass("hide");
+                        $("#lblValorFinanciamento2").text("R$ " + posPontucao(_valorFinanciamento, 10));
+                        $("#lblTotalComJuros2").text("R$ " + posPontucao(totalComJuros, 10));
+                        $("#lblValorEntrada2").text("R$ " + posPontucao(valorEntrada, 10));
+                        $("#lblTotalParcela2").text(totalParcela);
+                        $("#lblValorParcela2").text("R$ " + posPontucao(parcela_float.toFixed(2), 10));
+                        $("#lblDataPrimeira2").text(vencimentoParcela);
+                        txJuros = txJuros * 100;
+                        $("#lblTaxaJuros2").text(posPontucao(anJuros, 10) + " %");
+                    } else {
+                        $("#sim3").removeClass("hide");
+                        $("#sim4").addClass("hide");
+                        $("#lblValorFinanciamento3").text("R$ " + posPontucao(_valorFinanciamento, 10));
+                        $("#lblTotalComJuros3").text("R$ " + posPontucao(totalComJuros, 10));
+                        $("#lblValorEntrada3").text("R$ " + posPontucao(valorEntrada, 10));
+                        $("#lblTotalParcela3").text(totalParcela);
+                        $("#lblValorParcela3").text("R$ " + posPontucao(parcela_float.toFixed(2), 10));
+                        $("#lblDataPrimeira3").text(vencimentoParcela);
+                        txJuros = txJuros * 100;
+                        $("#lblTaxaJuros3").text(posPontucao(anJuros, 10) + " %");
+
+                        var txJuros1 = parseFloat($("#lblTaxaJuros").text());
+                        var txJuros2 = parseFloat($("#lblTaxaJuros2").text());
+                        var txJuros3 = parseFloat($("#lblTaxaJuros3").text());
+
+                        if (txJuros1 > txJuros2 && txJuros1 > txJuros3) {
+                            $("#tsim").removeClass("hide");
+                            $("#rsim").text("FINANCIAMENTO MAIS AGRESSIVO");
+                        } else
+                            if (txJuros2 > txJuros1 && txJuros2 > txJuros3) {
+                                $("#tsim2").removeClass("hide");
+                                $("#rsim2").text("FINANCIAMENTO MAIS AGRESSIVO");
+                            } else
+                                if (txJuros3 > txJuros1 && txJuros3 > txJuros2) {
+                                    $("#tsim3").removeClass("hide");
+                                    $("#rsim3").text("FINANCIAMENTO MAIS AGRESSIVO");
+                                } else {
+                                    $("#tsim").removeClass("hide");
+                                    $("#rsim").text("FINANCIAMENTO MAIS AGRESSIVO");
+
+                                    $("#tsim3").removeClass("hide");
+                                    $("#rsim3").text("FINANCIAMENTO MENOS AGRESSIVO");
+                                }
+
+                        if (txJuros1 < txJuros2 && txJuros1 < txJuros3) {
+                            $("#tsim").removeClass("hide");
+                            $("#rsim").text("FINANCIAMENTO MENOS AGRESSIVO");
+                        } else
+                            if (txJuros2 < txJuros1 && txJuros2 < txJuros3) {
+                                $("#tsim2").removeClass("hide");
+                                $("#rsim2").text("FINANCIAMENTO MENOS AGRESSIVO");
+                            } else
+                                if (txJuros3 < txJuros1 && txJuros3 < txJuros2) {
+                                    $("#tsim3").removeClass("hide");
+                                    $("#rsim3").text("FINANCIAMENTO MENOS AGRESSIVO");
+                                }
+                    }
+                } else {
+
+                    document.getElementById("btnView").style = "visibility:hidden";
+                }
+
+            }
+
+
+            function amf2005_BecameCurrency(cur, len) {
+                n = '__0123456789';
+                d = cur.value;
+                l = d.length;
+                r = '';
+                if (l > 0) {
+                    z = d.substr(0, l - 1);
+                    s = '';
+                    a = 2;
+                    for (i = 0; i < l; i++) {
+                        c = d.charAt(i);
+                        if (n.indexOf(c) > a) {
+                            a = 1;
+                            s += c;
+                        };
+                    };
+                    l = s.length;
+                    t = len - 1;
+                    if (l > t) {
+                        l = t;
+                        s = s.substr(0, t);
+                    };
+                    if (l > 2) {
+                        r = s.substr(0, l - 2) + '.' + s.substr(l - 2, 2);
+                    }
+                    else {
+                        if (l == 2) {
+                            r = '0.' + s;
+                        }
+                        else {
+                            if (l == 1) {
+                                r = '0.0' + s;
+                            };
+                        };
+                    };
+                    if (r == '') {
+                        r = '0.00';
+                    }
+
+                };
+
+                if (r.length <= len) {
+                    cur.value = r;
+
+                }
+                else {
+                    cur.value = z;
+                };
+                return 'ok';
+            };
+
+            function posPontucao(num, len) {
+                cur = num.toString();
+                n = '__0123456789';
+                d = cur;
+                var l = d.length;
+                r = '';
+                if (l > 0) {
+                    z = d.substr(0, l - 1);
+                    s = '';
+                    a = 2;
+                    for (i = 0; i < l; i++) {
+                        c = d.charAt(i);
+                        if (n.indexOf(c) > a) {
+                            a = 1;
+                            s += c;
+                        };
+                    };
+                    l = s.length;
+                    t = len - 1;
+                    if (l > t) {
+                        l = t;
+                        s = s.substr(0, t);
+                    };
+                    if (l > 2) {
+                        r = s.substr(0, l - 2) + '.' + s.substr(l - 2, 2);
+                    }
+                    else {
+                        if (l == 2) {
+                            r = '0.' + s;
+                        }
+                        else {
+                            if (l == 1) {
+                                r = '0.0' + s;
+                            };
+                        };
+                    };
+                    if (r == '') {
+                        r = '0.00';
+                    } else {
+                        l = r.length;
+                        if (l > 6) {
+                            j = l % 3;
+                            w = r.substr(0, j);
+                            wa = r.substr(j, l - j - 6);
+                            wb = r.substr(l - 6, 6);
+                            if (j > 0) {
+                                w += ',';
+                            };
+                            k = (l - j) / 3 - 2;
+                            for (i = 0; i < k; i++) {
+                                w += wa.substr(i * 3, 3) + '.';
+                            };
+                            r = w + wb;
+                        };
+                    };
+
+                };
+
+                if (r.length <= len) {
+                    cur = r;
+
+                }
+                else {
+                    cur = z;
+                };
+                return cur;
+            };
+
+        </script>
+
+
+</body>
+</html>
